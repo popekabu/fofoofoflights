@@ -20,39 +20,8 @@ class _SeeFlightsState extends State<SeeFlights> {
 
    Future<List<Flights>> _getFlights() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    try {
-      var headers = {
-        'Content-Type': 'application/json',
-        'Conversation-ID': '1234',
-        'Authorization': 'Bearer '+prefs.getString("token")
-      };
-      var request = http.Request('POST',
-          Uri.parse('https://api-crt.cert.havail.sabre.com/v2/offers/shop'));
-      request.body =
-          '''{\n  "OTA_AirLowFareSearchRQ": {\n    "OriginDestinationInformation": [\n      {\n        "DepartureDateTime": "2021-06-21T00:00:00",\n        "DestinationLocation": {\n          "LocationCode": "$from"\n        },\n        "OriginLocation": {\n          "LocationCode": "$to"\n        },\n        "RPH": "0"\n      },\n      {\n        "DepartureDateTime": "2021-06-22T00:00:00",\n        "DestinationLocation": {\n          "LocationCode": "$from"\n        },\n        "OriginLocation": {\n          "LocationCode": "$to"\n        },\n        "RPH": "1"\n      }\n    ],\n    "POS": {\n      "Source": [\n        {\n          "PseudoCityCode": "F9CE",\n          "RequestorID": {\n            "CompanyName": {\n              "Code": "TN"\n            },\n            "ID": "1",\n            "Type": "1"\n          }\n        }\n      ]\n    },\n    "TPA_Extensions": {\n      "IntelliSellTransaction": {\n        "RequestType": {\n          "Name": "200ITINS"\n        }\n      }\n    },\n    "TravelPreferences": {\n      "TPA_Extensions": {\n        "DataSources": {\n          "ATPCO": "Enable",\n          "LCC": "Disable",\n          "NDC": "Disable"\n        },\n        "NumTrips": {}\n      }\n    },\n    "TravelerInfoSummary": {\n      "AirTravelerAvail": [\n        {\n          "PassengerTypeQuantity": [\n            {\n              "Code": "ADT",\n              "Quantity": 1\n            }\n          ]\n        }\n      ],\n      "SeatsRequested": [\n        1\n      ]\n    },\n    "Version": "2"\n  }\n}''';
-      request.headers.addAll(headers);
-
-      final http.StreamedResponse response = await request.send();
-
-      if (response.statusCode == 200) {
-        print("STATUS CODE: 200");
-        final List<Flights> flights = flightsFromJson(response.stream.toString()) as List<Flights>;
-        return flights;
-      } else {
-        print("STATUS CODE:" + response.reasonPhrase);
-        return <Flights>[];
-      }
-    } on SocketException catch (e) {
-      print("SOCKET EXCEPTION => "+e.toString());
-      BotToast.showSimpleNotification(
-          title: "Please check your internet connection");
-      return <Flights>[];
-    } on Error catch (e) {
-      print("ERROR => "+e.toString());
-      BotToast.showSimpleNotification(
-          title: "Error Occurred, Please contact Fofoofo Flights Team");
-      return <Flights>[];
-    }
+     
+     //FLIGHTS CONNECTION GOES HERE
   }
 
   @override
